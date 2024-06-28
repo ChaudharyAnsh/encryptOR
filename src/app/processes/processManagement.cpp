@@ -18,6 +18,22 @@ void processManagement::executeTasks() {
         std::unique_ptr<Task> currentTask = std::move(taskQueue.front());
         taskQueue.pop();
         std::cout << "Executing task " << currentTask->toString() << std::endl;
-        executeCrypto(std::move(currentTask));
+        switch (currentTask->cipher) {
+            case Cipher::OTPAD:
+                executeCrypto(std::move(currentTask));
+                break;
+            case Cipher::BLOCK:
+                executeCrypto(std::move(currentTask));
+                break;
+            case Cipher::CAESAR:
+                executeCrypto(std::move(currentTask));
+                break;
+            case Cipher::STREAM:
+                executeCrypto(std::move(currentTask));
+                break;
+            default:
+                executeCrypto(std::move(currentTask));
+                break;
+        }
     }
 }
