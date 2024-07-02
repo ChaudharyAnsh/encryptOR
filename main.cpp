@@ -1,9 +1,9 @@
 #include <filesystem>
 #include <iostream>
 
+#include "./src/app/fileHanding/keyGen.cpp"
 #include "./src/app/processes/processManagement.hpp"
 #include "./src/app/processes/task.hpp"
-
 namespace fs = std::filesystem;
 
 int main(int argc, char *argv[]) {
@@ -16,8 +16,13 @@ int main(int argc, char *argv[]) {
     std::cout << directory << "\n";
     std::cout << "Enter the action: encrypt / decrypt" << std::endl;
     std::getline(std::cin, action);
-    std::cout << "Enter the algorithm used: \n otp / caesar / block / stream / vignere" << std::endl;
+    std::cout << "Enter the algorithm used: \n [ otp | caesar | block | vignere ]" << std::endl;
     std::getline(std::cin, cipherStr);
+
+    if (action == "encrypt") {
+        keyGen key;
+        key.generate();
+    }
 
     try {
         if (fs::exists(directory) && fs::is_directory(directory)) {
@@ -33,7 +38,6 @@ int main(int argc, char *argv[]) {
                         Cipher cph = (cipherStr == "otp"      ? Cipher::OTPAD
                                       : cipherStr == "block"  ? Cipher::BLOCK
                                       : cipherStr == "caesar" ? Cipher::CAESAR
-                                      : cipherStr == "stream" ? Cipher::STREAM
                                                               : Cipher::VIGNERE);
 
                         std::unique_ptr<Task> task = std::make_unique<Task>(std::move(fStream), filePath, act, cph);

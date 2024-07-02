@@ -15,8 +15,8 @@ enum class Action { ENCRYPT,
 enum class Cipher { BLOCK,
                     OTPAD,
                     CAESAR,
-                    STREAM,
-                    VIGNERE };
+                    VIGNERE
+};
 
 struct Task {
     std::string filePath;
@@ -34,24 +34,21 @@ struct Task {
             << (cipher == Cipher::OTPAD    ? "method=OTP"
                 : cipher == Cipher::BLOCK  ? "method=BLOCK"
                 : cipher == Cipher::CAESAR ? "method=CAESAR"
-                : cipher == Cipher::STREAM ? "method=STREAM"
                                            : "method=VIGNERE");
         return oss.str();
     }
 
-    static std::unique_ptr<Task> fromString(const std::string &taskData) {
-        std::istringstream iss(taskData);
-        std::string filePath;
-        std::string actionStr;
-        std::string cipherStr;
-
-        if (std::getline(iss, filePath, ',') && std::getline(iss, actionStr) && std::getline(iss, cipherStr)) {
+    static std::unique_ptr<Task> fromString(const std::string filePath, std::string actionStr, std::string cipherStr) {
+        // std::istringstream iss(taskData);
+        // std::string filePath;
+        // std::string actionStr;
+        // std::string cipherStr;
+        if (filePath.size() && actionStr.size() && cipherStr.size()) {
             Action action = actionStr == "encrypt" ? Action::ENCRYPT : Action::DECRYPT;
 
             Cipher cipher = cipherStr == "otp"      ? Cipher::OTPAD
                             : cipherStr == "block"  ? Cipher::BLOCK
                             : cipherStr == "caesar" ? Cipher::CAESAR
-                            : cipherStr == "stream" ? Cipher::STREAM
                                                     : Cipher::VIGNERE;
             IO io(filePath);
             std::fstream fileStream = io.getFileStream();

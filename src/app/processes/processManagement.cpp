@@ -19,20 +19,17 @@ void processManagement::executeTasks() {
         taskQueue.pop();
         std::cout << "Executing task " << currentTask->toString() << std::endl;
         switch (currentTask->cipher) {
+            case Cipher::CAESAR:
+                executeCAESAR(std::move(currentTask));
+                break;
             case Cipher::OTPAD:
-                executeCrypto(std::move(currentTask));
+                executeOTPAD(std::move(currentTask));
                 break;
             case Cipher::BLOCK:
-                executeCrypto(std::move(currentTask));
-                break;
-            case Cipher::CAESAR:
-                executeCrypto(std::move(currentTask));
-                break;
-            case Cipher::STREAM:
-                executeCrypto(std::move(currentTask));
+                executeBLOCK(std::move(currentTask));
                 break;
             default:
-                executeCrypto(std::move(currentTask));
+                executeVIGNERE(std::move(currentTask));
                 break;
         }
     }

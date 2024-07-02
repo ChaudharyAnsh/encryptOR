@@ -7,10 +7,10 @@
 #include "crypto.hpp"
 
 int main(int argc, char *argv[]) {
-    if (argc < 2) {
-        std::cerr << "Usage ./crypto <task_data>" << std::endl;
+    if (argc < 3) {
+        std::cerr << "Usage ./crypto (file_name) (encrypt/decrypt) (MODE)\n";
         return 1;
     }
-    executeCrypto(Task::fromString(argv[1]));
+    executeBLOCK(Task::fromString(argv[1], argv[2], argv[3]));
     return 0;
 }
