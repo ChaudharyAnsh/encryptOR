@@ -1,5 +1,5 @@
 CXX = g++
-CXXFLAGS = -std=c++17 -g -Wall -I. -Isrc/app/encryptDecrypt -Isrc/app/fileHandling -Isrc/app/processes
+CXXFLAGS = -std=c++23 -g -Wall -I. -Isrc/app/encryptDecrypt -Isrc/app/fileHanding -Isrc/app/processes -Isrc/app/threading
 
 MAIN_TARGET = encryptDecrypt
 CRYPTION_TARGET = crypto
@@ -7,11 +7,13 @@ CRYPTION_TARGET = crypto
 MAIN_SRC = main.cpp \
            src/app/fileHanding/IO.cpp \
            src/app/fileHanding/readEnv.cpp \
+		   src/app/threading/threadPool.cpp \
            src/app/processes/processManagement.cpp \
            src/app/encryptDecrypt/crypto.cpp
 
 CRYPTION_SRC = src/app/fileHanding/IO.cpp \
                src/app/fileHanding/readEnv.cpp \
+		   	   src/app/threading/threadPool.cpp \
                src/app/encryptDecrypt/crypto.cpp \
 			   src/app/encryptDecrypt/cryptoMain.cpp
 

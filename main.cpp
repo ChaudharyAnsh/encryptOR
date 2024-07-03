@@ -4,6 +4,7 @@
 #include "./src/app/fileHanding/keyGen.cpp"
 #include "./src/app/processes/processManagement.hpp"
 #include "./src/app/processes/task.hpp"
+// #include "./src/app/threading/threadPool.cpp"
 namespace fs = std::filesystem;
 
 int main(int argc, char *argv[]) {
@@ -47,7 +48,7 @@ int main(int argc, char *argv[]) {
                     }
                 }
             }
-            pManagement.executeTasks();
+            // pManagement.executeTasks();
         } else {
             std::cout << "Invalid directory path" << std::endl;
         }

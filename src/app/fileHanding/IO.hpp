@@ -1,6 +1,7 @@
 #ifndef IO_HPP
 #define IO_HPP
 #include <fstream>
+#include <mutex>
 #include <string>
 
 class IO {
@@ -11,5 +12,6 @@ class IO {
 
    private:
     std::fstream fileStream;
+    std::mutex mtx;
 };
 #endif

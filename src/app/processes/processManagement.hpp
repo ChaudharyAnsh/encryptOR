@@ -4,16 +4,19 @@
 #include <memory>
 #include <queue>
 
+#include "../threading/threadPool.cpp"
 #include "task.hpp"
+
+#define NUM_THREAD 8
 
 class processManagement {
    public:
     processManagement();
-    bool submitToQueue(std::unique_ptr<Task> task);
-    void executeTasks();
+    bool submitToQueue(std::shared_ptr<Task> task);
+    void handover();
 
    private:
-    std::queue<std::unique_ptr<Task>> taskQueue;
+    threadPool pool = threadPool(NUM_THREAD);
 };
 
 #endif

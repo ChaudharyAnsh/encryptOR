@@ -38,11 +38,7 @@ struct Task {
         return oss.str();
     }
 
-    static std::unique_ptr<Task> fromString(const std::string filePath, std::string actionStr, std::string cipherStr) {
-        // std::istringstream iss(taskData);
-        // std::string filePath;
-        // std::string actionStr;
-        // std::string cipherStr;
+    static std::shared_ptr<Task> fromString(const std::string filePath, std::string actionStr, std::string cipherStr) {
         if (filePath.size() && actionStr.size() && cipherStr.size()) {
             Action action = actionStr == "encrypt" ? Action::ENCRYPT : Action::DECRYPT;
 

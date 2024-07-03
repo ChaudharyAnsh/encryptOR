@@ -11,6 +11,6 @@ int main(int argc, char *argv[]) {
         std::cerr << "Usage ./crypto (file_name) (encrypt/decrypt) (MODE)\n";
         return 1;
     }
-    executeBLOCK(Task::fromString(argv[1], argv[2], argv[3]));
+    // executeBLOCK(Task::fromString(argv[1], argv[2], argv[3]));
     return 0;
 }

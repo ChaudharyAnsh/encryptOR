@@ -4,7 +4,7 @@
 #include "../processes/task.hpp"
 #include "string.h"
 
-int executeBLOCK(std::unique_ptr<Task> task) {
+int executeBLOCK(std::shared_ptr<Task> task) {
     readEnv env;
     std::string key = env.getEnv();
     std::string replaceKey = "";
@@ -29,7 +29,7 @@ int executeBLOCK(std::unique_ptr<Task> task) {
     return 0;
 }
 
-int executeCAESAR(std::unique_ptr<Task> task) {
+int executeCAESAR(std::shared_ptr<Task> task) {
     readEnv env;
     std::string key = env.getEnv();
     const int offset = key[0];
@@ -43,11 +43,11 @@ int executeCAESAR(std::unique_ptr<Task> task) {
     return 0;
 }
 
-int executeOTPAD(std::unique_ptr<Task> task) {
+int executeOTPAD(std::shared_ptr<Task> task) {
     readEnv env;
     std::string key = env.getEnv();
-    std::cout << key << " ";
-    std::cout.flush();
+    // std::cout << key << " ";
+    // std::cout.flush();
     const size_t len = key.size();
 
     int ind = 0;
@@ -63,7 +63,7 @@ int executeOTPAD(std::unique_ptr<Task> task) {
     return 0;
 }
 
-int executeVIGNERE(std::unique_ptr<Task> task) {
+int executeVIGNERE(std::shared_ptr<Task> task) {
     readEnv env;
     std::string key = env.getEnv();
     const size_t len = key.size();
