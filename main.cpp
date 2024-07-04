@@ -1,10 +1,12 @@
 #include <filesystem>
 #include <iostream>
 
+#include "./src/app/encryptDecrypt/crypto.hpp"
 #include "./src/app/fileHanding/keyGen.cpp"
-#include "./src/app/processes/processManagement.hpp"
+#include "./src/app/fileHanding/readEnv.cpp"
 #include "./src/app/processes/task.hpp"
-// #include "./src/app/threading/threadPool.cpp"
+#include "./src/app/threading/threadPool.cpp"
+
 namespace fs = std::filesystem;
 
 int main(int argc, char *argv[]) {
@@ -21,13 +23,16 @@ int main(int argc, char *argv[]) {
     std::getline(std::cin, cipherStr);
 
     if (action == "encrypt") {
-        keyGen key;
-        key.generate();
+        keyGen keyGen;
+        keyGen.generate();
     }
+
+    readEnv env;
+    std::string key = env.getEnv();
 
     try {
         if (fs::exists(directory) && fs::is_directory(directory)) {
-            processManagement pManagement;
+            threadPool pool(8);
             for (const auto &entry : fs::recursive_directory_iterator(directory)) {
                 if (entry.is_regular_file()) {
                     std::string filePath = entry.path().string();
@@ -41,14 +46,28 @@ int main(int argc, char *argv[]) {
                                       : cipherStr == "caesar" ? Cipher::CAESAR
                                                               : Cipher::VIGNERE);
 
-                        std::unique_ptr<Task> task = std::make_unique<Task>(std::move(fStream), filePath, act, cph);
-                        pManagement.submitToQueue(std::move(task));
+                        std::shared_ptr<Task> task = std::make_shared<Task>(std::move(fStream), filePath, key, act, cph);
+                        std::function<int(std::shared_ptr<Task>)> func;
+                        switch (task->cipher) {
+                            case Cipher::CAESAR:
+                                func = executeCAESAR;
+                                break;
+                            case Cipher::OTPAD:
+                                func = executeOTPAD;
+                                break;
+                            case Cipher::BLOCK:
+                                func = executeBLOCK;
+                                break;
+                            default:
+                                func = executeVIGNERE;
+                                break;
+                        }
+                        pool.executeTask(func, task);
                     } else {
                         std::cout << "Unable to open file " << filePath << std::endl;
                     }
                 }
             }
-            // pManagement.executeTasks();
         } else {
             std::cout << "Invalid directory path" << std::endl;
         }

@@ -1,12 +1,15 @@
 #include "crypto.hpp"
 
+#include <chrono>
+#include <thread>
+
 #include "../fileHanding/readEnv.cpp"
 #include "../processes/task.hpp"
 #include "string.h"
-
+using namespace std;
 int executeBLOCK(std::shared_ptr<Task> task) {
-    readEnv env;
-    std::string key = env.getEnv();
+    // readEnv env;
+    std::string key = task->keybuf;
     std::string replaceKey = "";
     const size_t len = key.size();
 
@@ -44,10 +47,7 @@ int executeCAESAR(std::shared_ptr<Task> task) {
 }
 
 int executeOTPAD(std::shared_ptr<Task> task) {
-    readEnv env;
-    std::string key = env.getEnv();
-    // std::cout << key << " ";
-    // std::cout.flush();
+    std::string key = task->keybuf;
     const size_t len = key.size();
 
     int ind = 0;
